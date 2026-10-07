@@ -1,0 +1,5 @@
+- Se comunica en español y espera respuestas en español. Confidence: 0.9
+- Tras aplicar correcciones sugeridas, pide que se relean los archivos y se confirme explícitamente la comprensión de los cambios. Confidence: 0.7
+- Prefiere planes de implementación con estructura convencional (Objetivo, Contexto, Alcance, Decisiones, Tareas, Verificación, Criterios de aceptación, Riesgos, Notas), sin etiquetas de ejecutor tipo AGENTE/AMBOS/MANUAL ni estimaciones de tiempo. Confidence: 0.9
+- Quiere que los planes estén escritos para que los ejecute un agente, con tareas accionables de arriba abajo. Confidence: 0.8
+- Prefiere títulos de planes descriptivos que comuniquen de qué tratan (p. ej. "Fase 0: Arquitectura + puertos"). Confidence: 0.7

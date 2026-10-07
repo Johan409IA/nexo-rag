@@ -1,0 +1,29 @@
+[project]
+name = "nexo"
+version = "0.1.0"
+description = "Asistente de estudio RAG sobre PDFs de clase"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-m 'not integration'"
+markers = ["integration: requiere servicios reales (Supabase); ejecutar con -m integration"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = ["frontend", ".agents", ".commandcode", "informe.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
