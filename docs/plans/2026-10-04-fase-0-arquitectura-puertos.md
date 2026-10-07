@@ -1,6 +1,6 @@
 # Fase 0: Arquitectura + puertos
 
-> **Estado:** En curso · **Creado:** 2026-10-04 · **Actualizado:** 2026-10-07
+> **Estado:** Completado el 2026-10-07 — núcleo implementado y verificado; carril Supabase pendiente de configuración y autorización · **Creado:** 2026-10-04 · **Actualizado:** 2026-10-07
 > **Fuentes:** `informe.md` (fuente de verdad: §8–§9, §13–§14, §20.4, Anexos A.1–A.8) y `roadmap.md` (Fase 0).
 > Plan de implementación: las tareas se ejecutan en orden y cada una tiene su verificación.
 

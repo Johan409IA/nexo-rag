@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(uv:*)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

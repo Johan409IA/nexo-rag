@@ -4,10 +4,10 @@ Memoria vigente del proyecto. Mantenerla breve y actualizarla al terminar cada t
 
 ## Estado actual
 
-- MVP v1 en Fase 0 (Arquitectura + puertos); `informe.md` es el documento canónico.
-- Existe el esqueleto de carpetas; `pyproject.toml`/`uv.lock` dejan Fase 0 sin dependencias de runtime y pytest/Ruff en desarrollo. Los módulos Python siguen vacíos.
-- No hay casos de uso, adaptadores, `container.py`, API, CLI, frontend ni tests implementados.
-- Python configurado en 3.13.7. Ruff pasa; `uv run pytest` aún no encuentra tests y sale con código 5.
+- MVP v1: Fase 0 (Arquitectura + puertos) implementada y verificada el 2026-10-07; `informe.md` es el documento canónico.
+- Núcleo listo: modelos, puertos, `BuscarFragmentos`, `Preguntar`, esqueleto de `IngestarDocumento`, fakes y `container.py` sin efectos. Fase 0 sigue sin dependencias de runtime.
+- Tests locales verdes (`uv run pytest`: 49 aprobados; el de integración se omite sin `psycopg`/`DATABASE_URL`). Ruff (check y format) limpio.
+- Faltan: adaptadores reales, API, CLI y frontend. El carril Supabase tiene `schema.sql`, `connection.py` y test de integración preparados, sin ejecutar contra la BD.
 
 ## Decisiones (y por qué)
 
@@ -28,7 +28,7 @@ Memoria vigente del proyecto. Mantenerla breve y actualizarla al terminar cada t
 
 ## Próximos pasos
 
-- Implementar modelos, puertos, casos de uso y tests locales; fakes de embeddings con dimensión 768 y `container.py` sin conexiones.
-- Preparar y verificar Supabase cuando haya `DATABASE_URL` y autorización; es un carril externo separado y no bloquea el cierre del core. No ejecutar cambios reales sin permiso.
+- Fase 1 (según `roadmap.md`): `calcular_sha256`, `PyMuPDFLoader`, `PageChunker`, `GeminiEmbedder`, `PgVectorStore` y completar `IngestarDocumento`; añadir `psycopg`, `pgvector`, `google-genai` y `pymupdf` al implementar sus adaptadores.
+- Ejecutar el carril Supabase cuando haya `DATABASE_URL` y autorización (`uv run pytest -m integration`); no ejecutar cambios reales sin permiso.
 - Antes de la integración de Fase 1, completar credenciales, revisar condiciones de embeddings/privacidad y verificar el esquema/RLS.
-- Seguir `docs/plans/2026-10-04-fase-0-arquitectura-puertos.md` (plan de implementación convencional, reescrito el 2026-10-07); luego continuar según `roadmap.md`.
+- El plan de Fase 0 quedó completado; continuar con la Fase 1 según `roadmap.md`.

@@ -2,7 +2,7 @@
 
 Nexo es un proyecto educativo para construir un asistente RAG que responda preguntas sobre PDFs de clase con fuentes de curso, documento y página. El diseño contempla una CLI de ingesta/consulta, un servidor MCP, una API FastAPI y un chat web.
 
-> **Estado:** MVP v1 en Fase 0 (Arquitectura + puertos). Por ahora el repositorio contiene el esqueleto de paquetes y la configuración Python; las funciones RAG y las interfaces aún no están implementadas.
+> **Estado:** MVP v1 — Fase 0 (Arquitectura + puertos) implementada: modelos de dominio, puertos, casos de uso base, `container.py` y tests verdes. Los adaptadores reales y las interfaces llegan en las fases siguientes.
 
 ## Requisitos
 
@@ -26,7 +26,9 @@ uv run ruff check .
 uv run ruff format --check .
 ```
 
-Ruff está configurado y sus dos comprobaciones pasan actualmente. Pytest también está configurado, pero todavía no hay pruebas implementadas: hoy recopila cero tests y termina con código 5. La Fase 0 añadirá tests del core con fakes; las pruebas reales de Supabase serán explícitas y requerirán configuración y autorización.
+La suite local pasa sin red, `.env` ni credenciales: cubre modelos, casos de uso con fakes, contrato de `VectorStore`, reglas de arquitectura y configuración. El test de integración de Supabase (`tests/integration/`) se ejecuta solo de forma explícita con `uv run pytest -m integration` y requiere `DATABASE_URL`, la dependencia `psycopg` (Fase 1) y autorización para operar sobre la base; mientras tanto se omite con un aviso.
+
+`.env` solo es necesario para integraciones reales; los tests locales no lo leen.
 
 ## Uso
 
@@ -63,5 +65,6 @@ El valor del modelo generativo queda fijo durante el MVP; no es un selector de p
 - Fuente de verdad y diseño: [`informe.md`](informe.md)
 - Secuencia de fases: [`roadmap.md`](roadmap.md)
 - Plan de Fase 0: [`docs/plans/2026-10-04-fase-0-arquitectura-puertos.md`](docs/plans/2026-10-04-fase-0-arquitectura-puertos.md)
+- Registro de cambios: [`CHANGELOG.md`](CHANGELOG.md)
 - Instrucciones para agentes: [`AGENTS.md`](AGENTS.md)
 - Estado y decisiones entre sesiones: [`MEMORY.md`](MEMORY.md)
