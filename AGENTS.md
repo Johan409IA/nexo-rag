@@ -26,6 +26,7 @@
 
 ## Forma de trabajar 
 - Antes de cambios no triviales, revisa informe, roadmap y plan actual; mantén cambios acotados. No hagas commits ni cambios en Supabase sin autorización explícita.
+- Elimina archivos (scripts, tests, etc) temporales o de prueba que realices para no ensuciar el proyecto.
 
 ## Memoria
 

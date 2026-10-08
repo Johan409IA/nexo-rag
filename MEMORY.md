@@ -4,16 +4,18 @@ Memoria vigente del proyecto. Mantenerla breve y actualizarla al terminar cada t
 
 ## Estado actual
 
-- MVP v1: Fase 0 (Arquitectura + puertos) implementada y verificada el 2026-10-07; `informe.md` es el documento canónico.
-- Núcleo listo: modelos, puertos, `BuscarFragmentos`, `Preguntar`, esqueleto de `IngestarDocumento`, fakes y `container.py` sin efectos. Fase 0 sigue sin dependencias de runtime.
-- Tests locales verdes (`uv run pytest`: 49 aprobados; el de integración se omite sin `psycopg`/`DATABASE_URL`). Ruff (check y format) limpio.
-- Faltan: adaptadores reales, API, CLI y frontend. El carril Supabase tiene `schema.sql`, `connection.py` y test de integración preparados, sin ejecutar contra la BD.
+- Fases 0 y 1 completadas; `informe.md` es la fuente de verdad.
+- Fase 1 implementada y validada: hash e ingesta PDF, PyMuPDFLoader, PageChunker, GeminiEmbedder, PgVectorStore, composición y script auxiliar.
+- Tests locales: `uv run pytest -q` = 83 passed, 12 deselected (integración); Ruff check y format limpios. `PgVectorStore` valida el resultado opcional de `RETURNING id`; Gemini valida respuestas nulas y convierte valores a `float`.
+- Supabase: esquema aplicado; `uv run --env-file .env pytest -m integration -q --tb=no` = 12 passed. `SELECT 1` pasó y `SHOW ssl` confirmó `on`.
+- Johan confirmó pruebas manuales correctas: extracción, ingesta, duplicado, retrieval y filtro de curso. Los residuos de tests se borraron y la suite limpia sus marcadores al finalizar.
+- Pendiente: evaluación formal de retrieval (Fase 2), CLI formal (Fase 3), MCP, API y frontend.
 
 ## Decisiones (y por qué)
 
-- El proyecto y su distribución se llaman `nexo`; el comando CLI previsto será `nexo`. Aún no hay CLI ejecutable.
-- Arquitectura hexagonal; Supabase PostgreSQL + pgvector en East US (Ohio). Fase 0 cierra el core localmente; preparación/verificación de Supabase es un carril independiente no bloqueante, necesario antes de las integraciones de Fase 1.
-- RLS habilitado en `documentos` y `fragmentos`, sin políticas para `anon`/`authenticated` y con sus privilegios de tabla revocados. Backend/CLI usarán `DATABASE_URL`; no `FORCE ROW LEVEL SECURITY`.
+- El proyecto y su distribución se llaman `nexo`; el CLI formal se implementa en Fase 3. `scripts/prueba_fase1.py` es solo un auxiliar de pruebas manuales.
+- Arquitectura hexagonal; Supabase PostgreSQL + pgvector en East US (Ohio). `PgVectorStore` abre una conexión por operación y registra el tipo vector con `search_path` que incluye `extensions`.
+- RLS habilitado en `documentos` y `fragmentos`, sin políticas para `anon`/`authenticated` y con sus privilegios revocados. Backend/CLI usan `DATABASE_URL`; no `FORCE ROW LEVEL SECURITY`.
 - Generación fija con `gemini-2.5-flash`; embeddings `gemini-embedding-2` de 768 dimensiones.
 - Ingesta solo por CLI en el MVP. `IngestarDocumento` filtra páginas con menos de 50 caracteres tras `strip()`; `PageChunker` no filtra.
 - `Fragmento` no incluye el embedding como campo de dominio; se persiste en BD y se pasa en paralelo. `Embedder` y `FakeEmbedder` usan 768 dimensiones; el fake produce valores sintéticos.
@@ -23,12 +25,10 @@ Memoria vigente del proyecto. Mantenerla breve y actualizarla al terminar cada t
 
 ## Aprendizajes y errores a evitar
 
-- No documentar `uv run fastapi dev` ni `nexo ...` como utilizables todavía: faltan la app y el entry point. El nombre definitivo del proyecto y CLI es `nexo`.
-- `.env` contiene secretos y está ignorado por Git; nunca leerlo, compartirlo ni guardar valores sensibles en documentación.
+- No documentar `uv run fastapi dev` ni `nexo ...` como comandos utilizables: faltan la app y el entry point formal.
+- `.env` contiene secretos y está ignorado por Git; nunca leerlo, compartirlo ni guardar valores sensibles en documentación. Evitar imprimir excepciones que expongan la URL de PostgreSQL.
 
 ## Próximos pasos
 
-- Fase 1 (según `roadmap.md`): `calcular_sha256`, `PyMuPDFLoader`, `PageChunker`, `GeminiEmbedder`, `PgVectorStore` y completar `IngestarDocumento`; añadir `psycopg`, `pgvector`, `google-genai` y `pymupdf` al implementar sus adaptadores.
-- Ejecutar el carril Supabase cuando haya `DATABASE_URL` y autorización (`uv run pytest -m integration`); no ejecutar cambios reales sin permiso.
-- Antes de la integración de Fase 1, completar credenciales, revisar condiciones de embeddings/privacidad y verificar el esquema/RLS.
-- El plan de Fase 0 quedó completado; continuar con la Fase 1 según `roadmap.md`.
+- Continuar con la Fase 2: crear el dataset de evaluación y medir retrieval/generación por separado, manteniendo `k=4` y el chunking actual como baseline.
+- Nunca copiar URL ni credenciales a logs/documentación; `.env` es local y está ignorado por Git.

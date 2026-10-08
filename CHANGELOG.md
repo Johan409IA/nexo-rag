@@ -4,7 +4,9 @@
 
 ### Added
 
-- Núcleo de la Fase 0 (Arquitectura + puertos): modelos de dominio (`Documento`, `Fragmento`, `ResultadoBusqueda`, `Fuente`, `RespuestaRAG`), puertos como `Protocol` y casos de uso `BuscarFragmentos` y `Preguntar`, con `IngestarDocumento` como esqueleto para la Fase 1.
-- `container.py` como composition root: configuración opcional desde variables de entorno, secretos invisibles en `repr` y fábricas de casos de uso por inyección de puertos, sin efectos al importar.
-- Fakes en memoria (`FakeEmbedder` de 768 dimensiones, `InMemoryVectorStore`, `FakeLLM`, `FakeDocumentLoader`, `FakeChunker`) y suite de tests locales: modelos, casos de uso, contrato de `VectorStore`, reglas de arquitectura y configuración.
-- Carril de Supabase preparado: `adapters/database/schema.sql` (pgvector, RLS sin políticas públicas y privilegios revocados), `adapters/database/connection.py` y test de integración omitido sin `psycopg`/`DATABASE_URL`.
+- Núcleo de la Fase 0 (Arquitectura + puertos): modelos de dominio (`Documento`, `Fragmento`, `ResultadoBusqueda`, `Fuente`, `RespuestaRAG`), puertos como `Protocol` y casos de uso `BuscarFragmentos` y `Preguntar`.
+- Fase 1 de ingesta + retrieval: SHA-256 por bloques, flujo de ingesta con descarte y reporte de páginas breves, `PyMuPDFLoader`, `PageChunker`, `GeminiEmbedder` por lotes con reintentos, `PgVectorStore` con persistencia transaccional y búsqueda coseno.
+- Dependencias de adaptadores `pgvector`, `google-genai` y `pymupdf`; contrato reutilizable de `VectorStore`, tests unitarios de adaptadores y pruebas de integración Supabase.
+- `container.py` como composition root sin efectos al importar, con fábricas explícitas para los adaptadores de Fase 1.
+- `scripts/prueba_fase1.py` para revisar extracción, ingestar/reingestar, inspeccionar scores y validar el filtro por curso; no sustituye al CLI formal de Fase 3.
+- Esquema pgvector de Supabase aplicado; ejecución de integración remota pendiente por conectividad del entorno.

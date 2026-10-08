@@ -3,6 +3,24 @@
 - Prefiere planes de implementación con estructura convencional (Objetivo, Contexto, Alcance, Decisiones, Tareas, Verificación, Criterios de aceptación, Riesgos, Notas), sin etiquetas de ejecutor tipo AGENTE/AMBOS/MANUAL ni estimaciones de tiempo. Confidence: 0.9
 - Quiere que los planes estén escritos para que los ejecute un agente, con tareas accionables de arriba abajo. Confidence: 0.8
 - Prefiere títulos de planes descriptivos que comuniquen de qué tratan (p. ej. "Fase 0: Arquitectura + puertos"). Confidence: 0.7
-- Separa revisión/planificación de la implementación: al pedir una revisión espera que no se modifiquen archivos ("No modifiques ningún archivo", "NO MODIFIQUES NADA AUN... COMENTES") y que se implemente o corrija solo tras su aprobación explícita. Confidence: 0.8
+- Prefiere archivar los planes aprobados en el repositorio del proyecto (`docs/plans`, con nombre fechado), no solo en la carpeta de planes del agente. Confidence: 0.7
+- Separa revisión/planificación de la implementación: al pedir una revisión o al hacer una pregunta espera que no se modifiquen archivos ni datos ("No modifiques ningún archivo", "No modifiques nada aún, respóndeme") y que se implemente, corrija o borre solo tras su aprobación explícita. Confidence: 0.85
 - Prefiere respuestas concisas; cuando pide que se sea conciso espera una respuesta directa y sin rodeos. Confidence: 0.8
- del análisis estático de tipos (p. ej. atributos de solo lectura, accesos no garantizados por un Protocol) y prefiere código sin esos avisos cuando es razonable; quiere que se le explique el porqué antes de decidir si corregir. Confidence: 0.7
+- Revisa él mismo el código y reporta avisos de análisis estático de tipos del IDE (p. ej. accesos no garantizados por un Protocol, resultados opcionales de SDKs); prefiere código sin esos avisos cuando es razonable y que se le explique el porqué antes de decidir si corregir. Confidence: 0.8
+- Usa `uv` como gestor de paquetes y runner de comandos (`uv add`, `uv run`, `uv run --env-file .env`). Confidence: 0.7
+- Usa Ruff (`ruff check`, `ruff format --check`) y pytest con marcadores (p. ej. `integration` para tests que requieren credenciales). Confidence: 0.7
+- Arquitectura hexagonal con puertos (Protocol) y adaptadores, y composition root en `container.py` sin efectos al importar. Confidence: 0.7
+- Mantiene secretos en `.env` y espera que el agente nunca los lea, imprima ni guarde en documentación; evita exponer URLs de base de datos con credenciales en mensajes de error. Confidence: 0.8
+- Prefiere ejecutar él mismo las pruebas manuales siguiendo scripts/instrucciones del agente, en lugar de ampliar el alcance (p. ej. adelantar un CLI). Confidence: 0.7
+- Prefiere derivar valores de metadatos a partir de datos disponibles (p. ej. el nombre del archivo) antes que preguntar en cada paso o usar un valor único. Confidence: 0.6
+- Ante un fallo, prefiere que se le explique la causa raíz y se le den pasos accionables que él mismo pueda ejecutar (p. ej. comprobar red/DNS, rotar credenciales), dejando que el agente reintente las pruebas automatizadas. Confidence: 0.6
+- Prefiere conexiones a base de datos cifradas (`sslmode=require`) para que los datos no viajen sin cifrar. Confidence: 0.8
+- Verifica manualmente la conexión a la base de datos con `psql` en la terminal. Confidence: 0.6
+- Prefiere que el agente aproveche skills instaladas a nivel del proyecto (p. ej. la skill de Supabase). Confidence: 0.6
+- Prefiere que, ante preguntas sobre el proyecto, el agente consulte la fuente de verdad (informe.md, roadmap.md, README) y responda con base en ella en lugar de responder de memoria. Confidence: 0.6
+- No quiere que queden rastros de tests (archivos, registros o datos en la BD) tras la ejecución; espera que los tests limpien sus marcadores/datos al finalizar y que el agente borre cualquier residuo. Confidence: 0.8
+- Prefiere usar el MCP de Supabase para operar directamente sobre la base de datos (consultar y borrar registros) en lugar de scripts SQL ad hoc. Confidence: 0.7
+- Quiere que MEMORY.md y README.md se actualicen al cerrar una fase o feature ya verificada, apoyándose en la skill project-docs. Confidence: 0.6
+- Prefiere interfaces mínimas sin comandos/alias redundantes que dupliquen comportamiento (p. ej. `reingesta` frente a `ingesta`). Confidence: 0.5
+- Prefiere cambios mínimos y seguros al corregir avisos o errores, sin romper el comportamiento existente del proyecto («no rompas nada del proyecto»). Confidence: 0.6
+- A veces edita los tests o el código él mismo y delega en el agente ejecutarlos y aplicar el linter/formateador (no solo comprobarlos), esperando un reporte claro de si pasan. Confidence: 0.5

@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "transport": "http",
+      "enabled": true,
+      "url": "https://mcp.supabase.com/mcp?project_ref=qdtscybgfykcgzhfdhzs&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching",
+      "oauth": {
+        "authorizationUrl": "https://api.supabase.com/v1/oauth/authorize",
+        "tokenUrl": "https://api.supabase.com/v1/oauth/token",
+        "clientId": "e544e0ee-2775-45b1-862b-753dc04dee7f",
+        "scopes": [
+          "organizations:read",
+          "projects:read",
+          "projects:write",
+          "database:write",
+          "database:read",
+          "analytics:read",
+          "secrets:read",
+          "edge_functions:read",
+          "edge_functions:write",
+          "environment:read",
+          "environment:write",
+          "storage:read",
+          "storage:write"
+        ],
+        "resource": "https://mcp.supabase.com/mcp?project_ref=qdtscybgfykcgzhfdhzs&features=docs%2Caccount%2Cdatabase%2Cdebugging%2Cdevelopment%2Cfunctions%2Cbranching"
+      }
+    }
+  }
+}

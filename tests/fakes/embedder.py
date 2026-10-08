@@ -24,7 +24,6 @@ class FakeEmbedder:
         self.llamadas_consulta.append(consulta)
         return self._vector(consulta)
 
-
     @staticmethod
     def _vector(texto: str) -> list[float]:
         vector = [0.0] * DIMENSIONES

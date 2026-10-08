@@ -6,8 +6,12 @@ import container
 from container import (
     cargar_configuracion,
     construir_buscar_fragmentos,
+    construir_chunker,
+    construir_embedder_gemini,
     construir_ingestar,
+    construir_loader_pdf,
     construir_preguntar,
+    construir_vector_store,
 )
 from core.use_cases.buscar_fragmentos import BuscarFragmentos
 from core.use_cases.ingestar_documento import IngestarDocumento
@@ -73,3 +77,20 @@ def test_importar_container_no_produce_efectos() -> None:
 
     assert callable(container.cargar_configuracion)
     assert container.Configuracion().gemini_llm_model == "gemini-2.5-flash"
+
+
+def test_fabricas_de_adaptadores_construyen_los_adaptadores_reales() -> None:
+    from adapters.ai.gemini_embedder import GeminiEmbedder
+    from adapters.chunking.page_chunker import PageChunker
+    from adapters.database.pgvector_store import PgVectorStore
+    from adapters.pdf.pymupdf_loader import PyMuPDFLoader
+
+    loader = construir_loader_pdf()
+    chunker = construir_chunker()
+    embedder = construir_embedder_gemini("clave-de-ejemplo")
+    store = construir_vector_store("postgresql://ejemplo")
+
+    assert isinstance(loader, PyMuPDFLoader)
+    assert isinstance(chunker, PageChunker)
+    assert isinstance(embedder, GeminiEmbedder)
+    assert isinstance(store, PgVectorStore)

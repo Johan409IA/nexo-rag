@@ -1,6 +1,10 @@
 import os
 from dataclasses import dataclass, field
 
+from adapters.ai.gemini_embedder import GeminiEmbedder
+from adapters.chunking.page_chunker import PageChunker
+from adapters.database.pgvector_store import PgVectorStore
+from adapters.pdf.pymupdf_loader import PyMuPDFLoader
 from core.ports.chunker import Chunker
 from core.ports.document_loader import DocumentLoader
 from core.ports.embedder import Embedder
@@ -55,5 +59,25 @@ def construir_ingestar(
     embedder: Embedder,
     store: VectorStore,
 ) -> IngestarDocumento:
-    """Construye ``IngestarDocumento``; su flujo completo se implementa en la Fase 1."""
+    """Construye ``IngestarDocumento`` a partir de puertos ya instanciados."""
     return IngestarDocumento(loader=loader, chunker=chunker, embedder=embedder, store=store)
+
+
+def construir_loader_pdf() -> PyMuPDFLoader:
+    """Construye el ``DocumentLoader`` de PDF (PyMuPDF)."""
+    return PyMuPDFLoader()
+
+
+def construir_chunker() -> PageChunker:
+    """Construye el ``Chunker`` por página del MVP."""
+    return PageChunker()
+
+
+def construir_embedder_gemini(gemini_api_key: str) -> GeminiEmbedder:
+    """Construye el ``Embedder`` de Gemini con la clave indicada."""
+    return GeminiEmbedder(api_key=gemini_api_key)
+
+
+def construir_vector_store(database_url: str) -> PgVectorStore:
+    """Construye el ``VectorStore`` de pgvector sobre la base indicada."""
+    return PgVectorStore(database_url)
