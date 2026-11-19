@@ -9,6 +9,7 @@ from container import (
     construir_chunker,
     construir_embedder_gemini,
     construir_ingestar,
+    construir_llm_gemini,
     construir_loader_pdf,
     construir_preguntar,
     construir_vector_store,
@@ -31,19 +32,19 @@ def test_configuracion_sin_variables_de_integracion() -> None:
 
     assert configuracion.database_url is None
     assert configuracion.gemini_api_key is None
-    assert configuracion.gemini_llm_model == "gemini-2.5-flash"
+    assert configuracion.gemini_llm_model == "gemini-3.5-flash-lite"
 
 
 def test_parsea_variables_de_entorno(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("DATABASE_URL", "postgresql://ejemplo")
     monkeypatch.setenv("GEMINI_API_KEY", "clave-de-ejemplo")
-    monkeypatch.setenv("GEMINI_LLM_MODEL", "gemini-2.5-flash")
+    monkeypatch.setenv("GEMINI_LLM_MODEL", "gemini-3.5-flash-lite")
 
     configuracion = cargar_configuracion()
 
     assert configuracion.database_url == "postgresql://ejemplo"
     assert configuracion.gemini_api_key == "clave-de-ejemplo"
-    assert configuracion.gemini_llm_model == "gemini-2.5-flash"
+    assert configuracion.gemini_llm_model == "gemini-3.5-flash-lite"
 
 
 def test_repr_no_muestra_secretos(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -54,7 +55,7 @@ def test_repr_no_muestra_secretos(monkeypatch: pytest.MonkeyPatch) -> None:
 
     assert "secreto-db" not in texto
     assert "secreto-clave" not in texto
-    assert "gemini-2.5-flash" in texto
+    assert "gemini-3.5-flash-lite" in texto
 
 
 def test_fabricas_conectan_puertos_fakes_a_casos_de_uso() -> None:
@@ -76,11 +77,12 @@ def test_importar_container_no_produce_efectos() -> None:
     importlib.reload(container)
 
     assert callable(container.cargar_configuracion)
-    assert container.Configuracion().gemini_llm_model == "gemini-2.5-flash"
+    assert container.Configuracion().gemini_llm_model == "gemini-3.5-flash-lite"
 
 
 def test_fabricas_de_adaptadores_construyen_los_adaptadores_reales() -> None:
     from adapters.ai.gemini_embedder import GeminiEmbedder
+    from adapters.ai.gemini_llm import GeminiLLM
     from adapters.chunking.page_chunker import PageChunker
     from adapters.database.pgvector_store import PgVectorStore
     from adapters.pdf.pymupdf_loader import PyMuPDFLoader
@@ -88,9 +90,18 @@ def test_fabricas_de_adaptadores_construyen_los_adaptadores_reales() -> None:
     loader = construir_loader_pdf()
     chunker = construir_chunker()
     embedder = construir_embedder_gemini("clave-de-ejemplo")
+    llm = construir_llm_gemini("clave-de-ejemplo")
     store = construir_vector_store("postgresql://ejemplo")
 
     assert isinstance(loader, PyMuPDFLoader)
     assert isinstance(chunker, PageChunker)
     assert isinstance(embedder, GeminiEmbedder)
+    assert isinstance(llm, GeminiLLM)
+    assert llm.modelo == container.GEMINI_LLM_MODEL_POR_DEFECTO
     assert isinstance(store, PgVectorStore)
+
+
+def test_fabrica_llm_acepta_modelo_configurado() -> None:
+    llm = construir_llm_gemini("clave-de-ejemplo", modelo="gemini-otro")
+
+    assert llm.modelo == "gemini-otro"

@@ -96,9 +96,11 @@ Fijar un baseline antes de construir más interfaces.
 
 1. Ingestar un corpus representativo de **3 a 5 PDFs**.
 2. Escribir `eval/dataset.json` con **15–20 o más preguntas**. Cada una lleva:
+   - `id`
    - `pregunta`
    - `curso`
    - `categoria`
+   - `documento` (el documento de referencia; `null` en «sin respuesta»)
    - `paginas_esperadas`
    - una respuesta de referencia
 
@@ -224,7 +226,7 @@ Publicar el producto funcional.
 ### Tareas
 
 1. Antes de nada, revisar los límites vigentes de Gemini, Supabase, Render y Vercel.
-2. Desplegar FastAPI en Render con `DATABASE_URL`, `GEMINI_API_KEY` y `GEMINI_LLM_MODEL=gemini-2.5-flash`; el modelo no cambia durante el MVP.
+2. Desplegar FastAPI en Render con `DATABASE_URL`, `GEMINI_API_KEY` y `GEMINI_LLM_MODEL=gemini-3.5-flash-lite`; el modelo no cambia durante el MVP.
 3. Desplegar el frontend en Vercel con `VITE_API_URL`.
 4. Ajustar el CORS definitivo al dominio de Vercel.
 5. Ingestar los PDFs desde el CLI local contra la base de producción.
@@ -258,11 +260,11 @@ Las mejoras se priorizan según los fallos detectados en la evaluación.
 - [ ] Advertencias de páginas casi vacías
 - [ ] Fragmentos y embeddings en Supabase, con RLS habilitado, sin políticas para `anon`/`authenticated` y con sus privilegios de tabla revocados
 - [ ] Retrieval relevante con pgvector
-- [ ] Dataset de evaluación ejecutable
+- [x] Dataset de evaluación ejecutable
 - [ ] Respuesta con fuentes y mensaje fijo sin LLM generativo cuando el retrieval devuelve cero fragmentos
 - [ ] CLI de consulta
 - [ ] MCP con metadatos
 - [ ] API FastAPI
 - [ ] Frontend con fuentes
 - [ ] Todo desplegado
-- [ ] Evaluación documentada
+- [x] Evaluación documentada

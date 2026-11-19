@@ -5,7 +5,7 @@
 - Prefiere títulos de planes descriptivos que comuniquen de qué tratan (p. ej. "Fase 0: Arquitectura + puertos"). Confidence: 0.7
 - Prefiere archivar los planes aprobados en el repositorio del proyecto (`docs/plans`, con nombre fechado), no solo en la carpeta de planes del agente. Confidence: 0.7
 - Separa revisión/planificación de la implementación: al pedir una revisión o al hacer una pregunta espera que no se modifiquen archivos ni datos ("No modifiques ningún archivo", "No modifiques nada aún, respóndeme") y que se implemente, corrija o borre solo tras su aprobación explícita. Confidence: 0.85
-- Prefiere respuestas concisas; cuando pide que se sea conciso espera una respuesta directa y sin rodeos. Confidence: 0.8
+- Prefiere respuestas concisas; cuando pide que se sea conciso espera una respuesta directa y sin rodeos. Confidence: 0.85
 - Revisa él mismo el código y reporta avisos de análisis estático de tipos del IDE (p. ej. accesos no garantizados por un Protocol, resultados opcionales de SDKs); prefiere código sin esos avisos cuando es razonable y que se le explique el porqué antes de decidir si corregir. Confidence: 0.8
 - Usa `uv` como gestor de paquetes y runner de comandos (`uv add`, `uv run`, `uv run --env-file .env`). Confidence: 0.7
 - Usa Ruff (`ruff check`, `ruff format --check`) y pytest con marcadores (p. ej. `integration` para tests que requieren credenciales). Confidence: 0.7
@@ -17,10 +17,17 @@
 - Prefiere conexiones a base de datos cifradas (`sslmode=require`) para que los datos no viajen sin cifrar. Confidence: 0.8
 - Verifica manualmente la conexión a la base de datos con `psql` en la terminal. Confidence: 0.6
 - Prefiere que el agente aproveche skills instaladas a nivel del proyecto (p. ej. la skill de Supabase). Confidence: 0.6
-- Prefiere que, ante preguntas sobre el proyecto, el agente consulte la fuente de verdad (informe.md, roadmap.md, README) y responda con base en ella en lugar de responder de memoria. Confidence: 0.6
+- Prefiere que, ante preguntas o al elaborar planes sobre el proyecto, el agente consulte la fuente de verdad (informe.md, roadmap.md, README) y base su respuesta o plan en ella en lugar de hacerlo de memoria. Confidence: 0.7
 - No quiere que queden rastros de tests (archivos, registros o datos en la BD) tras la ejecución; espera que los tests limpien sus marcadores/datos al finalizar y que el agente borre cualquier residuo. Confidence: 0.8
 - Prefiere usar el MCP de Supabase para operar directamente sobre la base de datos (consultar y borrar registros) en lugar de scripts SQL ad hoc. Confidence: 0.7
 - Quiere que MEMORY.md y README.md se actualicen al cerrar una fase o feature ya verificada, apoyándose en la skill project-docs. Confidence: 0.6
 - Prefiere interfaces mínimas sin comandos/alias redundantes que dupliquen comportamiento (p. ej. `reingesta` frente a `ingesta`). Confidence: 0.5
 - Prefiere cambios mínimos y seguros al corregir avisos o errores, sin romper el comportamiento existente del proyecto («no rompas nada del proyecto»). Confidence: 0.6
 - A veces edita los tests o el código él mismo y delega en el agente ejecutarlos y aplicar el linter/formateador (no solo comprobarlos), esperando un reporte claro de si pasan. Confidence: 0.5
+- Prefiere cumplir todas las tareas de una fase (alcance completo) aunque haya que implementar antes un habilitador pendiente: pidió revertir el aplazamiento de la evaluación de generación e implementar `GeminiLLM` para que la tarea 5 de la Fase 2 se pudiera cumplir siguiendo las reglas del roadmap. Confidence: 0.8
+- Prefiere delegar en el agente la redacción de contenido de trabajo extenso (p. ej. un dataset de preguntas de evaluación con respuestas de referencia) a partir de las fuentes, reservándose él la revisión. Confidence: 0.5
+- Prefiere versiones pineadas y reproducibles (p. ej. un modelo concreto como `gemini-3.8-flash`) frente a aliases flotantes tipo `latest`, para que el baseline y sus resultados sean reproducibles. Confidence: 0.6
+- Prefiere que las decisiones documentadas como fijas/inmutables en la fuente de verdad (p. ej. el modelo del MVP) solo se cambien con su aprobación explícita, y que el agente le presente la evidencia verificada del problema (p. ej. un modelo retirado para usuarios nuevos) junto con las alternativas antes de tocar nada. Confidence: 0.7
+- Cuando algo falla, espera que se identifique el código de error exacto y se distinga el tipo de fallo (p. ej. 429 límite de cuota, 503 alta demanda/tráfico transitorio, 404 no disponible) antes de concluir la causa. Confidence: 0.7
+- Al elegir un modelo o API de pago, considera los límites de cuota diarios y prefiere el que dé margen suficiente para la carga de trabajo prevista (p. ej. 500 peticiones/día frente a 20/día), manteniendo una versión concreta en lugar de un alias flotante. Confidence: 0.6
+- Verifica que los entregables coincidan con lo prometido en el plan/roadmap (p. ej. el número y la distribución de preguntas del dataset), pidiendo confirmación explícita de esa consistencia. Confidence: 0.5

@@ -8,6 +8,7 @@
 
 - `uv sync` · `uv run pytest` · `uv run ruff check .` · `uv run ruff format --check .`
 - Integración (solo con configuración y autorización): `uv run pytest -m integration`
+- Evaluación de retrieval y generación (consume cuota de Gemini; solo con configuración y autorización): `uv run --env-file .env python eval/evaluate.py`
 - Aún no hay API, CLI `nexo` ni frontend ejecutables.
 
 ## Convenciones — Arquitectura hexagonal: el core depende de puertos, no de SDKs/adaptadores.

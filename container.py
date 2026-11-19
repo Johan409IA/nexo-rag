@@ -2,6 +2,7 @@ import os
 from dataclasses import dataclass, field
 
 from adapters.ai.gemini_embedder import GeminiEmbedder
+from adapters.ai.gemini_llm import GeminiLLM
 from adapters.chunking.page_chunker import PageChunker
 from adapters.database.pgvector_store import PgVectorStore
 from adapters.pdf.pymupdf_loader import PyMuPDFLoader
@@ -14,7 +15,7 @@ from core.use_cases.buscar_fragmentos import BuscarFragmentos
 from core.use_cases.ingestar_documento import IngestarDocumento
 from core.use_cases.preguntar import Preguntar
 
-GEMINI_LLM_MODEL_POR_DEFECTO = "gemini-2.5-flash"
+GEMINI_LLM_MODEL_POR_DEFECTO = "gemini-3.5-flash-lite"
 
 
 @dataclass(frozen=True, slots=True)
@@ -76,6 +77,15 @@ def construir_chunker() -> PageChunker:
 def construir_embedder_gemini(gemini_api_key: str) -> GeminiEmbedder:
     """Construye el ``Embedder`` de Gemini con la clave indicada."""
     return GeminiEmbedder(api_key=gemini_api_key)
+
+
+def construir_llm_gemini(gemini_api_key: str, modelo: str | None = None) -> GeminiLLM:
+    """Construye el ``LLM`` de Gemini con la clave indicada.
+
+    ``modelo`` acepta ``Configuracion.gemini_llm_model``; si es ``None`` se usa
+    ``GEMINI_LLM_MODEL_POR_DEFECTO``.
+    """
+    return GeminiLLM(api_key=gemini_api_key, modelo=modelo or GEMINI_LLM_MODEL_POR_DEFECTO)
 
 
 def construir_vector_store(database_url: str) -> PgVectorStore:
