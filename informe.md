@@ -1,7 +1,7 @@
 # Nexo: asistente de estudio sobre PDFs de clase
 
 **Fecha del informe:** 1 de octubre de 2026  
-**Última actualización:** 6 de octubre de 2026  
+**Última actualización:** 14 de octubre de 2026  
 **Estado del proyecto:** planificación cerrada — Fase 0 en curso  
 **Versión:** MVP v1  
 **Propósito del documento:** definir de forma definitiva el alcance, arquitectura, decisiones técnicas, flujo de trabajo y fases de construcción del proyecto.
@@ -150,7 +150,7 @@ Todas las decisiones necesarias para iniciar la implementación del MVP quedan c
 | Acceso a la base      | Backend/CLI por `DATABASE_URL`; RLS sin políticas públicas y privilegios `anon`/`authenticated` revocados |
 | Proveedor de IA       | Google Gemini                                                                                             |
 | Embeddings            | `gemini-embedding-2`, 768 dimensiones                                                                     |
-| LLM                   | `gemini-2.5-flash`, fijo durante el MVP                                                                   |
+| LLM                   | `gemini-3.5-flash-lite`, fijo durante el MVP                                                                   |
 | Extracción PDF        | PyMuPDF                                                                                                   |
 | Chunking V1           | Una página = un fragmento; el caso de uso filtra páginas con < 50 caracteres                              |
 | Recuperación inicial  | Similitud vectorial, `k = 4`                                                                              |
@@ -430,7 +430,7 @@ La tabla describe el stack objetivo, no dependencias que deban instalarse desde 
 
 ## 11. Gemini en el MVP
 
-Gemini será el **único proveedor de IA** del MVP. El modelo generativo fijo es `gemini-2.5-flash`; el modelo de embeddings es `gemini-embedding-2` con salida de 768 dimensiones.
+Gemini será el **único proveedor de IA** del MVP. El modelo generativo fijo es `gemini-3.5-flash-lite`; el modelo de embeddings es `gemini-embedding-2` con salida de 768 dimensiones.
 
 Se utilizará para dos responsabilidades distintas:
 
@@ -463,7 +463,9 @@ Esto permite aplicar internamente el formato que requiera el modelo sin que los 
 
 ### 11.2 Modelo fijo durante el MVP
 
-El modelo generativo del MVP será `gemini-2.5-flash`; no habrá selector de modelo ni de proveedor en la aplicación. `GEMINI_LLM_MODEL` es una variable de configuración del backend/CLI para declarar ese valor fijo en cada entorno, no una opción de producto para cambiar dinámicamente el modelo. El modelo de embeddings permanecerá en `gemini-embedding-2`.
+El modelo generativo del MVP será `gemini-3.5-flash-lite`; no habrá selector de modelo ni de proveedor en la aplicación. `GEMINI_LLM_MODEL` es una variable de configuración del backend/CLI para declarar ese valor fijo en cada entorno, no una opción de producto para cambiar dinámicamente el modelo. El modelo de embeddings permanecerá en `gemini-embedding-2`.
+
+> **Cambio de modelo (aprobado el 2026-10-14):** el valor original, `gemini-2.5-flash`, dejó de estar disponible para usuarios nuevos de la API de Gemini (error 404 NOT_FOUND al generar). Se probó con `gemini-3.5-flash-lite`, pero su cuota de 20 peticiones/día no bastó para completar la evaluación (18 preguntas + llamadas del LLM), por lo que el modelo final aprobado es `gemini-3.5-flash-lite` (500 peticiones/día), con el que se midió el baseline. El principio de modelo fijo durante el MVP se mantiene; el cambio no afecta al diseño de puertos.
 
 Tampoco se ofrecerá cambio de embedding o LLM durante esta versión.
 
@@ -892,7 +894,7 @@ Backend/CLI:
 ```text
 DATABASE_URL
 GEMINI_API_KEY
-GEMINI_LLM_MODEL=gemini-2.5-flash
+GEMINI_LLM_MODEL=gemini-3.5-flash-lite
 ```
 
 `GEMINI_LLM_MODEL` se define por entorno para despliegue, pero el valor de producto aprobado permanece fijo durante el MVP; no existe selección dinámica de modelo.
@@ -1017,7 +1019,7 @@ Entregables:
 - frontend en Vercel;
 - FastAPI en Render;
 - PostgreSQL + pgvector en Supabase (región East US, Ohio), con RLS habilitado, sin políticas para `anon`/`authenticated` y con sus privilegios de tabla revocados;
-- variables de entorno, incluido `GEMINI_LLM_MODEL=gemini-2.5-flash`;
+- variables de entorno, incluido `GEMINI_LLM_MODEL=gemini-3.5-flash-lite`;
 - CORS definitivo;
 - prueba end-to-end.
 

@@ -1,0 +1,164 @@
+[
+  {
+    "id": "P01",
+    "pregunta": "¿Qué es la escalabilidad de un sistema de bases de datos y cuáles son sus dos dimensiones?",
+    "curso": "Escalabilidad y big data",
+    "categoria": "directa",
+    "documento": "S07_s1 Escalabilidad y big data.pdf",
+    "paginas_esperadas": [8],
+    "respuesta_referencia": "La escalabilidad es la capacidad de un sistema de bases de datos para manejar cargas de trabajo crecientes añadiendo recursos. Tiene dos dimensiones: vertical (scale-up, más recursos al mismo servidor) y horizontal (scale-out, más servidores o nodos al clúster); la elección depende del patrón de carga, el presupuesto y la disponibilidad."
+  },
+  {
+    "id": "P02",
+    "pregunta": "¿Cuáles son las 5 V del Big Data y qué representa cada una?",
+    "curso": "Escalabilidad y big data",
+    "categoria": "directa",
+    "documento": "S07_s1 Escalabilidad y big data.pdf",
+    "paginas_esperadas": [10],
+    "respuesta_referencia": "Las 5 V del Big Data son: Volumen (datos a escala de petabytes y exabytes), Velocidad (generación y procesamiento en tiempo real), Variedad (datos estructurados, semiestructurados y no estructurados), Veracidad (confiabilidad y calidad de los datos) y Valor (generar insights accionables para el negocio)."
+  },
+  {
+    "id": "P03",
+    "pregunta": "¿Qué es HDFS y cómo almacena los archivos?",
+    "curso": "Escalabilidad y big data",
+    "categoria": "directa",
+    "documento": "S07_s1 Escalabilidad y big data.pdf",
+    "paginas_esperadas": [11],
+    "respuesta_referencia": "HDFS (Hadoop Distributed File System) es el sistema de archivos distribuido de Hadoop: divide los archivos en bloques de 128 MB y replica cada bloque en 3 nodos; el NameNode gestiona los metadatos y los DataNodes almacenan los bloques. Es write-once-read-many, de alto throughput y con tolerancia a fallos automática."
+  },
+  {
+    "id": "P04",
+    "pregunta": "¿Qué establece el teorema CAP y qué combinaciones son posibles?",
+    "curso": "Escalabilidad y big data",
+    "categoria": "directa",
+    "documento": "S07_s1 Escalabilidad y big data.pdf",
+    "paginas_esperadas": [9],
+    "respuesta_referencia": "El teorema CAP (Brewer, 2000) establece que solo se pueden garantizar 2 de 3 propiedades: Consistencia (todos los nodos ven los mismos datos al mismo tiempo), Disponibilidad (el sistema siempre responde) y Tolerancia a particiones (funciona aunque fallen las conexiones entre nodos). Ejemplos: CA (SQL tradicional), CP (HBase, MongoDB) y AP (Cassandra, CouchDB, DynamoDB)."
+  },
+  {
+    "id": "P05",
+    "pregunta": "¿Qué diferencias principales existen entre los servicios web SOAP y REST?",
+    "curso": "Integración de sistemas de información",
+    "categoria": "directa",
+    "documento": "S08_s1 Integración de sistemas de información.pdf",
+    "paginas_esperadas": [12],
+    "respuesta_referencia": "SOAP usa su propio protocolo (envelope sobre HTTP/SMTP), solo XML, contrato WSDL obligatorio, seguridad WS-Security y transacciones ACID distribuidas; es más lento y típico en banca, gobierno e integración legacy. REST usa HTTP estándar (GET/POST/PUT/DELETE), admite JSON/XML/HTML, contrato OpenAPI opcional, seguridad OAuth 2.0/JWT/HTTPS, es más rápido y stateless; es el de facto para APIs públicas, mobile y microservicios."
+  },
+  {
+    "id": "P06",
+    "pregunta": "¿Qué es un API Gateway y qué capacidades centraliza?",
+    "curso": "Integración de sistemas de información",
+    "categoria": "directa",
+    "documento": "S08_s1 Integración de sistemas de información.pdf",
+    "paginas_esperadas": [17],
+    "respuesta_referencia": "Un API Gateway es un servidor proxy que actúa como punto de entrada único para todas las APIs del ecosistema empresarial. Centraliza autenticación/autorización (JWT/OAuth), rate limiting, transformación de mensajes, observabilidad (logs, métricas, trazas), enrutamiento a los microservicios y caché."
+  },
+  {
+    "id": "P07",
+    "pregunta": "¿Qué es la triada CIA en la seguridad de la información?",
+    "curso": "Seguridad, auditoría",
+    "categoria": "directa",
+    "documento": "S09_s1 Seguridad, auditoría.pdf",
+    "paginas_esperadas": [8],
+    "respuesta_referencia": "La triada CIA son los tres fundamentos de la seguridad de la información: Confidencialidad (solo personas autorizadas acceden; cifrado, control de acceso, IAM), Integridad (la información no se altera sin autorización; hashing SHA-256, firmas digitales, logs inmutables) y Disponibilidad (los sistemas están operativos cuando se necesitan; redundancia, balanceo de carga, backups y planes de recuperación)."
+  },
+  {
+    "id": "P08",
+    "pregunta": "¿Qué derechos ARCOLPO reconoce la Ley N° 29733 de Protección de Datos Personales del Perú?",
+    "curso": "Seguridad, auditoría",
+    "categoria": "directa",
+    "documento": "S09_s1 Seguridad, auditoría.pdf",
+    "paginas_esperadas": [12],
+    "respuesta_referencia": "Los derechos ARCOLPO del titular de datos (Art. 18-27 de la Ley 29733) son: Acceso, Rectificación, Cancelación, Oposición, Limitación del tratamiento, Portabilidad de los datos y No automatización de decisiones con efectos jurídicos significativos."
+  },
+  {
+    "id": "P09",
+    "pregunta": "Según los apuntes, ¿cómo se compara Apache Hadoop MapReduce con Apache Spark para procesar datos?",
+    "curso": "Escalabilidad y big data",
+    "categoria": "multi_pagina",
+    "documento": "S07_s1 Escalabilidad y big data.pdf",
+    "paginas_esperadas": [11, 13],
+    "respuesta_referencia": "MapReduce es el paradigma de procesamiento paralelo de Hadoop (MAP, SHUFFLE, REDUCE) que escribe en disco entre fases y es lento para datos iterativos. Spark es un motor de procesamiento distribuido in-memory creado en UC Berkeley (2009), hasta 100x más rápido que MapReduce para datos iterativos porque procesa en RAM; soporta SQL, ML, streaming y grafos (Spark Core/RDD, Spark SQL, Spark Streaming, MLlib) y es el sucesor de facto de MapReduce."
+  },
+  {
+    "id": "P10",
+    "pregunta": "¿Qué relación tienen la escalabilidad horizontal, el sharding y el teorema CAP?",
+    "curso": "Escalabilidad y big data",
+    "categoria": "multi_pagina",
+    "documento": "S07_s1 Escalabilidad y big data.pdf",
+    "paginas_esperadas": [8, 9],
+    "respuesta_referencia": "La escalabilidad horizontal (scale-out) añade nodos al clúster y cada nodo gestiona un subconjunto de los datos mediante sharding (particionado por rango de clave, por hash o geográfico). Al distribuir los datos aparecen problemas de consistencia y de JOINs cross-shard, que enmarcan el teorema CAP: en un sistema distribuido solo se garantizan 2 de 3 propiedades (consistencia, disponibilidad y tolerancia a particiones)."
+  },
+  {
+    "id": "P11",
+    "pregunta": "¿Qué elementos definen el diseño de una API REST según los apuntes?",
+    "curso": "Integración de sistemas de información",
+    "categoria": "multi_pagina",
+    "documento": "S08_s1 Integración de sistemas de información.pdf",
+    "paginas_esperadas": [13, 14],
+    "respuesta_referencia": "El uso correcto de los verbos HTTP (GET, POST, PUT, PATCH, DELETE) con sus códigos de estado (200, 201, 204, 400, 401, 403, 404, 409, 429, 500) y unas URLs bien diseñadas (sustantivos en plural, versionado /api/v1 y /api/v2, paginación y filtros como query params, relaciones por sub-recursos), más seguridad (OAuth 2.0 + JWT, API Keys, rate limiting, HTTPS obligatorio) y caché (Cache-Control, ETag)."
+  },
+  {
+    "id": "P12",
+    "pregunta": "¿Por qué se integran los sistemas de información empresariales y qué patrones y middleware se utilizan?",
+    "curso": "Integración de sistemas de información",
+    "categoria": "multi_pagina",
+    "documento": "S08_s1 Integración de sistemas de información.pdf",
+    "paginas_esperadas": [8, 9, 10],
+    "respuesta_referencia": "La integración (EAI) conecta sistemas heterogéneos (ERP, CRM, RRHH, e-commerce) para compartir datos y procesos en tiempo real, eliminando silos de información y duplicación de datos. Los 4 estilos de integración son: transferencia de archivos, base de datos compartida, invocación remota (RPC/API) y mensajería asíncrona. El middleware típico es el ESB (enrutamiento, transformación, conectores, seguridad centralizada, monitoreo, orquestación), con herramientas como MuleSoft Anypoint, Apache Camel, Azure Integration Services o AWS AppFlow/EventBridge."
+  },
+  {
+    "id": "P13",
+    "pregunta": "¿Qué es la auditoría de sistemas de información y qué marco de gobierno de TI la complementa?",
+    "curso": "Seguridad, auditoría",
+    "categoria": "multi_pagina",
+    "documento": "S09_s1 Seguridad, auditoría.pdf",
+    "paginas_esperadas": [13, 14],
+    "respuesta_referencia": "La auditoría de SI es el examen sistemático e independiente de los sistemas de información, su infraestructura, controles, datos y operaciones para evaluar el cumplimiento de políticas, estándares regulatorios y buenas prácticas; sus fases son planificación, trabajo de campo, análisis y evaluación, informe y seguimiento. Se complementa con marcos de gobierno de TI como COBIT 2019 de ISACA (6 principios, separación gobierno/gestión, certificaciones CISA, CISM, CRISC, CDPSE y CGEIT)."
+  },
+  {
+    "id": "P14",
+    "pregunta": "¿Cuáles son las fases del ciclo de vida de Scrum para gestionar proyectos de software?",
+    "curso": "Escalabilidad y big data",
+    "categoria": "sin_respuesta",
+    "documento": null,
+    "paginas_esperadas": [],
+    "respuesta_referencia": "No hay evidencia en los apuntes: el sistema debe indicar que falta información en lugar de inventar una respuesta."
+  },
+  {
+    "id": "P15",
+    "pregunta": "¿Cómo se entrena una red neuronal convolucional para clasificar imágenes médicas?",
+    "curso": "Escalabilidad y big data",
+    "categoria": "sin_respuesta",
+    "documento": null,
+    "paginas_esperadas": [],
+    "respuesta_referencia": "No hay evidencia en los apuntes: el sistema debe indicar que falta información en lugar de inventar una respuesta."
+  },
+  {
+    "id": "P16",
+    "pregunta": "¿Qué es el protocolo TCP/IP y en qué capas se estructura el modelo OSI?",
+    "curso": "Integración de sistemas de información",
+    "categoria": "sin_respuesta",
+    "documento": null,
+    "paginas_esperadas": [],
+    "respuesta_referencia": "No hay evidencia en los apuntes: el sistema debe indicar que falta información en lugar de inventar una respuesta."
+  },
+  {
+    "id": "P17",
+    "pregunta": "¿Cuáles son los requisitos para certificar una empresa bajo la norma ISO 14001 de gestión ambiental?",
+    "curso": "Integración de sistemas de información",
+    "categoria": "sin_respuesta",
+    "documento": null,
+    "paginas_esperadas": [],
+    "respuesta_referencia": "No hay evidencia en los apuntes: el sistema debe indicar que falta información en lugar de inventar una respuesta."
+  },
+  {
+    "id": "P18",
+    "pregunta": "¿Cómo se desarrolla una aplicación móvil nativa para iOS con Swift?",
+    "curso": "Seguridad, auditoría",
+    "categoria": "sin_respuesta",
+    "documento": null,
+    "paginas_esperadas": [],
+    "respuesta_referencia": "No hay evidencia en los apuntes: el sistema debe indicar que falta información en lugar de inventar una respuesta."
+  }
+]
